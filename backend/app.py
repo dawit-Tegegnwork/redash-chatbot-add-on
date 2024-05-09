@@ -3,6 +3,7 @@ from config import Config
 from models import cities, content_type
 from controllers.chat_controller import chat_controller
 from controllers.dashboard_controller import dashboard_controller
+from controllers.data_controller import data_controller
 
 def create_app():
     app = Quart(__name__)
@@ -14,6 +15,7 @@ def create_app():
     # Register blueprints
     app.register_blueprint(chat_controller)
     app.register_blueprint(dashboard_controller)
+    app.register_blueprint(data_controller)
 
     return app
 

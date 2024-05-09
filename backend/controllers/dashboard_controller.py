@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, current_app
 
 dashboard_controller = Blueprint('dashboard_controller', __name__)
 
@@ -20,13 +20,15 @@ redash_dashboards = {
 
 @dashboard_controller.route('/redash/dashboards', methods=['GET'])
 def get_redash_dashboards():
-    print('we go here')
-    return jsonify({"dashboards": list(redash_dashboards.values())})
+    with current_app.app_context():
+        dashboards = list(redash_dashboards.values())
+        return jsonify({"dashboards": dashboards, "status": "success", "message": "Dashboards retrieved successfully"})
 
 @dashboard_controller.route('/redash/dashboard/<dashboard_id>', methods=['GET'])
 def get_redash_dashboard(dashboard_id):
-    dashboard = redash_dashboards.get(dashboard_id)
-    if dashboard:
-        return jsonify(dashboard)
-    else:
-        return jsonify({"status": "error", "message": "Dashboard not found"}), 404
+    with current_app.app_context():
+        dashboard = redash_dashboards.get(dashboard_id)
+        if dashboard:
+            return jsonify({"dashboard": dashboard, "status": "success", "message": "Dashboard retrieved successfully"})
+        else:
+            return jsonify({"status": "error", "message": "Dashboard not found"}), 404
