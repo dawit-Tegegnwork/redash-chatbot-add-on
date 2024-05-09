@@ -1,47 +1,44 @@
-import requests
+from redashAPI import RedashAPIClient
+from langchain.agents import tool
+from typing import Optional
+from typing import List, Tuple
 
-class RedashClient:
-    def __init__(self, base_url, api_key):
-        self.base_url = base_url.rstrip('/')
-        self.api_key = api_key
+api_key = ''
+api_url = "http://localhost:5001"
+your_data_source_id = 1
 
-    def create_dashboard(self, name, description=''):
-        """
-        Create a new dashboard in Redash.
-        """
-        endpoint = f"{self.base_url}/api/dashboards"
-        headers = {'Authorization': f'Key {self.api_key}'}
-        data = {'name': name, 'description': description}
-        response = requests.post(endpoint, headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()
+Redash = RedashAPIClient(api_key, api_url)
 
-    def get_dashboards(self):
-        """
-        Retrieve information about existing dashboards in Redash.
-        """
-        endpoint = f"{self.base_url}/api/dashboards"
-        headers = {'Authorization': f'Key {self.api_key}'}
-        response = requests.get(endpoint, headers=headers)
-        response.raise_for_status()
-        return response.json()
+@tool
+def create_redash_query(data_source_id: int, query: str, name: str, description: str="", options: dict=None):
+    """Create a query in Redash and return the response json"""
+    response = Redash.create_query(data_source_id, name, query, description, options)
+    return response.json()
 
-    def configure_visualization(self, dashboard_id, visualization_id, visualization_config):
-        """
-        Configure a visualization within a dashboard in Redash.
-        """
-        endpoint = f"{self.base_url}/api/dashboards/{dashboard_id}/visualizations/{visualization_id}"
-        headers = {'Authorization': f'Key {self.api_key}'}
-        response = requests.put(endpoint, headers=headers, json=visualization_config)
-        response.raise_for_status()
-        return response.json()
+@tool
+def create_redash_visualization(query_id: int, visualization_type: str, name: str,columns:list=None,  x_axis:str=None, y_axis: list=None):
+    """Create a visualization in Redash and return the response json"""
+    response = Redash.create_visualization(qry_id=query_id, _type=visualization_type, name=name,columns=columns, x_axis=x_axis, y_axis=y_axis)
+    return response.json()
 
-    def execute_query(self, query_id, parameters=None):
-        """
-        Execute a query against the data sources connected to Redash and retrieve the results.
-        """
-        endpoint = f"{self.base_url}/api/queries/{query_id}/results"
-        headers = {'Authorization': f'Key {self.api_key}'}
-        response = requests.get(endpoint, headers=headers, params=parameters)
-        response.raise_for_status()
-        return response.json()
+@tool
+def create_redash_dashboard(name: str):
+    """Create a dashboard in redash and return the response json"""
+    response = Redash.create_dashboard(name)
+    return response.json()
+
+@tool
+def add_widget_on_dashboard(dashboard_id: int, text: str="", visualization_id: int=None, full_width: bool=False, position: dict=None):
+    """Add a widget in redash dashboard and return the response json"""
+    response = Redash.add_widget(dashboard_id, text, visualization_id, full_width, position)
+    return response.json()
+
+@tool
+def publish_dashboard(self, dashboard_id: int):
+    """ Publish dashboard and return the response json"""
+    response = Redash.publish_dashboard(dashboard_id)
+    return response.json()
+
+# response = create_redash_visualization(query_id=34, visualization_type= "line", name= "Second Visualization", x_axis="Date", y_axis=[
+#     {"type": "line", "name": "Views", "label": "c2"}
+# ])
