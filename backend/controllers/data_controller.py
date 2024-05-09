@@ -31,7 +31,7 @@ csv_file_path = "extract/data-files/traffic-data.csv"
 
 
 # Define the connection string
-connection_string = 'postgresql+psycopg2://postgres:postgres@localhost:5432/postgres'
+connection_string = 'postgresql+psycopg2://postgres:postgres@localhost:15432/postgres'
 
 # Create an instance of DatabaseManager
 db_manager = DatabaseManager(connection_string)
