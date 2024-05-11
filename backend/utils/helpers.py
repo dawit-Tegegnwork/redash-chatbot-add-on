@@ -16,3 +16,9 @@ def extract_data_from_csv(filename):
         for row in csv_reader:
             data.append(dict(row))
     return data
+
+
+def read_schema_file(file_path):
+    with open(file_path, 'r') as file:
+        schema_sql = file.read()
+    return schema_sql

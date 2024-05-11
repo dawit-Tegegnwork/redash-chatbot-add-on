@@ -1,47 +1,39 @@
-from flask import Blueprint, jsonify, request, current_app as app
-import os
-from openai import OpenAI
-import os
-from dotenv import load_dotenv
-import openai
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Get the OpenAI API key from the environment
-api_key = os.getenv("OPENAI_API_KEY")
-
-client = OpenAI(
-  api_key=api_key
-)
-
+from flask import Blueprint, jsonify, current_app as app
 
 chat_controller = Blueprint('chat_controller', __name__)
 
-# Sample data for chat messages
-chat_messages = [{"hello": "holla"}]
+import sys
+import os
 
-@chat_controller.route('/chat', methods=['POST'])
-def send_message():
-        try:
-            value = request.get_json()
-            question = value.get('question')
-            completion = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a redash visualization assistant, skilled in SQL queries and data visualization. You are only required to give answers for query and data visualization questions. If asked about a topic outside these two, make sure to respond that you have no information regarding that question. I am only here to help you with your query and data visualization questions. When asked to write queries, only provide the code without descriptions."},
-                    {"role": "user", "content": question}
-                ]
-            )
-            answer = completion.choices[0].message.content
-            response_data = {"answer": answer}
-            return jsonify(response_data), 200
-        except Exception as error:
-            print(error)
-            return jsonify({"error": "An error occurred"}), 500
+# Get the current script directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Get the parent directory
+parent_dir = os.path.dirname(current_dir)
+
+# Get the grandparent directory
+grandparent_dir = os.path.dirname(parent_dir)
+
+# Add the grandparent directory to the system path
+sys.path.insert(0, grandparent_dir)
 
 
-@chat_controller.route('/chat', methods=['GET'])
-def get_messages():
-    with app.app_context():
-        return jsonify({"messages": chat_messages})
+from backend.services.nlp_services import generate_sql_query
+from utils.helpers import read_schema_file
+from backend.services.redash_services import create_redash_query, create_redash_dashboard, create_redash_visualization
+
+@chat_controller.route('/chat-path', methods=['POST'])
+async def chat():
+    if 1:
+        schema_path = 'databse/schema.sql'
+        question = "which cities do we have out top customers"
+        print(schema_path)
+        schema = read_schema_file(schema_path)
+        answer = generate_sql_query(question, schema)   
+        print("answer: ", answer)
+        query_id = create_redash_query(answer, "we did it")
+        if(query_id):
+            create_redash_visualization(query_id, )
+        return "Data loaded successfully", 200
+    else:
+        return "Failed to load data", 500
