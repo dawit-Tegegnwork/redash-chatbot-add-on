@@ -29,16 +29,6 @@ The data includes:
 - Time series transcribed text for selected videos uploaded to our channel.
 
 
-## Installation and Usage
-
-1. Clone this repository:
-
-```bash
-git clone https://github.com/your_username/redash-youtube-analytics.git
-```
-
-2. 
-
 ## Repository structure
 
 ```
@@ -63,33 +53,32 @@ git clone https://github.com/your_username/redash-youtube-analytics.git
 
 ## Key Components
 
-### Backend
-Quart Backend
+### Quart Backend
 
 The Quart backend serves as the intelligence engine for the Redash YouTube Analytics Chat Add-on. It provides the necessary endpoints and logic to handle user queries, translate them into actionable tasks, interact with the database, and communicate with the frontend.
 Features
 
-    - Natural Language Processing (NLP): Utilizes NLP techniques to understand user queries in natural language format.
-    - SQL Query Generation: Generates SQL queries based on user input to retrieve data from the connected databases.
-    - Data Retrieval and Processing: Handles data retrieval from the database and processes it to generate insights or visualizations.
-    - Integration with Redash: Communicates with the Redash frontend to provide seamless interaction within the Redash environment.
+ * Natural Language Processing (NLP): Utilizes NLP techniques to understand user queries in natural language format.
+ * SQL Query Generation: Generates SQL queries based on user input to retrieve data from the connected databases.
+ * Data Retrieval and Processing: Handles data retrieval from the database and processes it to generate insights or visualizations.
+ * Integration with Redash: Communicates with the Redash frontend to provide seamless interaction within the Redash environment.
 
-#### Endpoints 
-    - 
 
 ### Redash
+Redash helps you make sense of your data, it connect and query your data sources, build dashboards to visualize data and share them with your company.Combined with the backend Redash empowers users to effortlessly transform their natural language queries into actionable insights through dynamically generated dashboards. By leveraging cutting-edge technologies and intuitive user interfaces, automatic dashboard generation streamlines the data exploration process, enabling users to make informed decisions more efficiently.
 
 
 ## Setup Instructions
 
 1. Clone this repository to your local environment.
 2. Install requirements
-3. run the make file on redash folder
-4. run the backend by python3 backend/app.py
+3. Setup .env file and write important keys
+4. run the make file on redash folder
+5. run the backend backend/app.py
 
 ## Usage
 
-Once the setup is complete, login to redash and query your prompts.
+Once the setup is complete, login to redash and write your questions to generate and visualize from your youtube source.
 
 ## Contributors
 

@@ -17,17 +17,15 @@ def generate_sql_query(natural_language_query, table_schema):
     # Prepare prompt for GPT model
     prompt = f"Generate SQL query for the following natural language query: '{natural_language_query}'. The table schema is as follows: {table_schema}."
 
-    # Initialize OpenAI client with API key
-
     try:
         # Send request to GPT model for query generation
         response = client.completions.create(
-            model="gpt-3.5-turbo-instruct",  # Specify the model you want to use
+            model="gpt-3.5-turbo-instruct",  
             prompt=prompt,
-            max_tokens=200,  # Adjust max_tokens as needed
-            n=1,  # Number of completions to generate
-            stop=None,  # Optional stop sequence to end the completion
-            temperature=0.7  # Controls randomness of output
+            max_tokens=200,  
+            n=1,  
+            stop=None,  
+            temperature=0.5
         )
 
         # Extract generated SQL query from response
