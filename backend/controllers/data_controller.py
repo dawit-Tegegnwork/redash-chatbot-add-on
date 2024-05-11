@@ -19,9 +19,8 @@ sys.path.insert(0, grandparent_dir)
 
 
 from backend.models import cities, content_type, device_type, geography, new_and_returning_viewers
-from backend.utils.db_utils import DatabaseManager
+from backend.services.db_services import DatabaseManager
 from backend.utils.helpers import extract_data_from_csv
-
 
 # Connection profile
 database_name = "postgres"
@@ -71,3 +70,4 @@ async def load_data():
         return "Data loaded successfully", 200
     else:
         return "Failed to load data", 500
+    
