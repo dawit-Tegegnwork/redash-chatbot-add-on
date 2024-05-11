@@ -22,7 +22,7 @@ from backend.services.nlp_services import generate_sql_query
 from utils.helpers import read_schema_file
 from backend.services.redash_services import create_redash_query, create_redash_dashboard, create_redash_visualization
 
-@chat_controller.route('/chat-path', methods=['POST'])
+@chat_controller.route('/chat', methods=['POST'])
 async def chat():
     if 1:
         schema_path = 'databse/schema.sql'
