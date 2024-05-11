@@ -16,7 +16,7 @@ data_source = os.getenv("REDASH_DATA_SOURCE")
 
 Redash = RedashAPIClient(api_key, api_url)
 
-# @tool
+
 def create_redash_query(query: str, name: str, data_source_id: int = data_source, description: str="", options: dict=None):
     """Create a query in Redash and return the response json"""
     response = Redash.create_query(data_source_id, name, query, description, options)
@@ -29,7 +29,7 @@ def create_redash_query(query: str, name: str, data_source_id: int = data_source
         print(f"Failed to create query. Status code: {response.status_code}")
         return None
 
-# @tool
+
 def create_redash_visualization(query_id: int, visualization_type: str, name: str,columns:list=None,  x_axis:str=None, y_axis: list=None):
     """Create a visualization in Redash and return the response json"""
     response = Redash.create_visualization(qry_id=query_id, _type=visualization_type, name=name,columns=columns, x_axis=x_axis, y_axis=y_axis)
@@ -42,7 +42,6 @@ def create_redash_visualization(query_id: int, visualization_type: str, name: st
         print(f"Failed to create visualization. Status code: {response.status_code}")
         return None
 
-# @tool
 def create_redash_dashboard(name: str):
     """Create a dashboard in redash and return the response json"""
     response = Redash.create_dashboard(name)
