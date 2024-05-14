@@ -1,0 +1,4 @@
+quart
+openai
+psycopg2-binary
+SQLAlchemy
