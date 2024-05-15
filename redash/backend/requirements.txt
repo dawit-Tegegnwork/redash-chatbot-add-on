@@ -1,0 +1,6 @@
+quart
+openai
+psycopg2-binary
+SQLAlchemy
+flask
+requests

@@ -2,15 +2,14 @@ from flask import request, jsonify
 from redash.handlers.base import (
     BaseResource
 )
+from urllib import request as urlrequest
+from urllib import error as urlerror
+import json
+# from flask_wtf.csrf import generate_csrf, csrf_exempt
 import os
 import requests
-from openai import OpenAI
-VARIABLE_KEY = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(
-  api_key=VARIABLE_KEY
-)
 
-endpoint = 'http://192.168.8.114:5000/chat'
+endpoint = 'http://localhost:5057/chat'
 
 class ChatResource(BaseResource):
     def post(self):
@@ -25,4 +24,4 @@ class ChatResource(BaseResource):
             return jsonify(response_data), 200
         except Exception as error:
             print(error)
-            return jsonify({"error": "An error occurred"}), 500
+            return jsonify({"error": "An error occurred!"}), 500

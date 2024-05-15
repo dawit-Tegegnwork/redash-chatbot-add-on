@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import inspect
-from sqlalchemy.exc import SQLAlchemyError
 from backend.models.base import Base
 
 class DatabaseManager:
@@ -24,7 +23,7 @@ class DatabaseManager:
             print("Tables created successfully.")
         except Exception as e:
             print(f"Error creating tables: {e}")
-
+    
     def read_database_schema(self):
         try:
             inspector = inspect(self.engine)
@@ -39,7 +38,6 @@ class DatabaseManager:
             return schema
         except Exception as e:
             print(f"Error creating database: {e}")
-
 
     def insert_data(self, table_type, data):
         session = None
@@ -59,18 +57,3 @@ class DatabaseManager:
             # Close session if it was opened
             if session:
                 session.close()
-
-    def execute_query(engine, query):
-        """
-        Executes a SQL query on the provided database engine.
-        """
-        result = None
-        try:
-            with engine.connect() as connection:
-                result = connection.execute(query)
-                if result.returns_rows:
-                    result = result.fetchall()
-        except SQLAlchemyError as e:
-            raise Exception(f"Error executing query: {e}")
-        
-        return result
